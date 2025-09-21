@@ -1,12 +1,12 @@
-name: CI - Ultra Minimal
+name: Minimal Test
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Basic Build Only
+  minimal:
+    name: Minimal Build Test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -16,5 +16,5 @@ jobs:
       with:
         toolchain: stable
     
-    - name: Build
-      run: cargo build
+    - name: Check if project compiles
+      run: cargo check
