@@ -47,8 +47,8 @@ impl fmt::Display for OpenTrustError {
             OpenTrustError::InvalidValue { field, value, message } => {
                 write!(f, "Invalid {} value {}: {}", field, value, message)
             }
-            OpenTrustError::ConservationViolation { t, i, f, sum } => {
-                write!(f, "Conservation constraint violated: T + I + F = {} + {} + {} = {} > 1.0", t, i, f, sum)
+            OpenTrustError::ConservationViolation { t, i, f: falsity, sum } => {
+                write!(f, "Conservation constraint violated: T + I + F = {} + {} + {} = {} > 1.0", t, i, falsity, sum)
             }
             OpenTrustError::EmptyProvenanceChain => {
                 write!(f, "Provenance chain cannot be empty")
