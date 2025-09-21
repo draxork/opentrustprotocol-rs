@@ -1,0 +1,39 @@
+name: Fix Format
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  fix_format:
+    name: Auto-fix Formatting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@v1
+      with:
+        toolchain: stable
+        components: rustfmt
+    
+    - name: Fix formatting automatically
+      run: cargo fmt --all
+    
+    - name: Check if formatting was fixed
+      run: cargo fmt --all -- --check
+    
+    - name: Show git diff
+      run: git diff
+    
+    - name: Commit and push if changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Auto-fix: Apply cargo fmt to resolve formatting issues"
+          git push
+        else
+          echo "No formatting changes needed"
+        fi
