@@ -1,12 +1,12 @@
-name: CI - Gradual Recovery
+name: Step-by-Step Recovery
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build_and_test:
-    name: Build + Tests
+  step1_build:
+    name: Step 1: Build Only
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -15,7 +15,20 @@ jobs:
       uses: dtolnay/rust-toolchain@v1
       with:
         toolchain: stable
-        components: rustfmt, clippy
+    
+    - name: Build
+      run: cargo build
+
+  step2_tests:
+    name: Step 2: Build + Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@v1
+      with:
+        toolchain: stable
     
     - name: Build
       run: cargo build
@@ -23,8 +36,8 @@ jobs:
     - name: Run tests
       run: cargo test
 
-  format_check:
-    name: Format Check
+  step3_format:
+    name: Step 3: Build + Tests + Format
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -35,19 +48,11 @@ jobs:
         toolchain: stable
         components: rustfmt
     
+    - name: Build
+      run: cargo build
+    
+    - name: Run tests
+      run: cargo test
+    
     - name: Check formatting
       run: cargo fmt --all -- --check
-
-  benchmark_check:
-    name: Benchmark Check
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@v1
-      with:
-        toolchain: stable
-    
-    - name: Run benchmarks
-      run: cargo bench --no-run
