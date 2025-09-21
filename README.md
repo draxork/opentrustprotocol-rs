@@ -1,5 +1,7 @@
 # OpenTrust Protocol Rust SDK
 
+> 🚀 **CI/CD Active**: Automated testing, linting, security audits, and crates.io publishing
+
 [![Crates.io](https://img.shields.io/crates/v/opentrustprotocol.svg)](https://crates.io/crates/opentrustprotocol)
 [![Documentation](https://docs.rs/opentrustprotocol/badge.svg)](https://docs.rs/opentrustprotocol)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
