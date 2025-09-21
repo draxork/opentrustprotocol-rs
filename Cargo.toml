@@ -14,7 +14,7 @@ keywords = [
 ]
 categories = [
     "algorithms", "data-structures", "cryptography::cryptocurrencies",
-    "development-tools", "simulations"
+    "development-tools", "web-programming"
 ]
 
 [dependencies]
