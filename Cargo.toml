@@ -13,8 +13,8 @@ keywords = [
     "neutrosophy", "trust", "uncertainty", "audit", "fusion"
 ]
 categories = [
-    "science", "algorithms", "data-structures", "cryptography::cryptocurrencies",
-    "development-tools", "simulations", "web-programming::http-client"
+    "algorithms", "data-structures", "cryptography::cryptocurrencies",
+    "development-tools", "simulations"
 ]
 
 [dependencies]
