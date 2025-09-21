@@ -2,8 +2,8 @@
 
 use opentrustprotocol::{
     get_global_registry, reset_global_registry, BaseMapperParams, BooleanMapper, BooleanParams,
-    CategoricalMapper, CategoricalParams, JudgmentData, MapperType,
-    MapperValidator, NumericalMapper, NumericalParams,
+    CategoricalMapper, CategoricalParams, JudgmentData, MapperType, MapperValidator,
+    NumericalMapper, NumericalParams,
 };
 use std::collections::HashMap;
 

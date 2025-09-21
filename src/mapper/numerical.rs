@@ -1,12 +1,12 @@
 //! NumericalMapper implementation for transforming continuous numerical data
 
 use crate::judgment::NeutrosophicJudgment;
-use crate::mapper::types::{
-    create_judgment, create_timestamp, Mapper, MapperType, NumericalParams,
-    ProvenanceEntry, ValidationError,
-};
 #[cfg(test)]
 use crate::mapper::types::BaseMapperParams;
+use crate::mapper::types::{
+    create_judgment, create_timestamp, Mapper, MapperType, NumericalParams, ProvenanceEntry,
+    ValidationError,
+};
 use std::collections::HashMap;
 
 /// NumericalMapper for transforming continuous numerical data into Neutrosophic Judgments

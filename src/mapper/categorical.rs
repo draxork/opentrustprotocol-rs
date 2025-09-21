@@ -2,8 +2,8 @@
 
 use crate::judgment::NeutrosophicJudgment;
 use crate::mapper::types::{
-    create_judgment, create_timestamp, validate_judgment_values,
-    CategoricalParams, Mapper, MapperType, ProvenanceEntry, ValidationError,
+    create_judgment, create_timestamp, validate_judgment_values, CategoricalParams, Mapper,
+    MapperType, ProvenanceEntry, ValidationError,
 };
 #[cfg(test)]
 use crate::mapper::types::{BaseMapperParams, JudgmentData};
@@ -103,12 +103,12 @@ impl CategoricalMapper {
         }
 
         // No mapping and no default judgment
-            Err(crate::error::OpenTrustError::InvalidFusionInput {
-                message: format!(
-                    "Input category '{}' not found in mapper and no default_judgment is defined",
-                    input_category
-                ),
-            })
+        Err(crate::error::OpenTrustError::InvalidFusionInput {
+            message: format!(
+                "Input category '{}' not found in mapper and no default_judgment is defined",
+                input_category
+            ),
+        })
     }
 }
 
