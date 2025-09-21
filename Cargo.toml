@@ -10,11 +10,7 @@ homepage = "https://opentrustprotocol.com"
 documentation = "https://docs.rs/opentrustprotocol"
 readme = "README.md"
 keywords = [
-    "neutrosophy", "neutrosophic", "uncertainty", "trust", "audit", 
-    "ai", "artificial-intelligence", "blockchain", "defi", "crypto",
-    "iot", "sensors", "fusion", "mapping", "judgment", "decision-making",
-    "risk-assessment", "kyc", "aml", "compliance", "oracle", "consensus",
-    "opentrust-protocol", "otp", "trust-protocol", "auditable-trust"
+    "neutrosophy", "trust", "uncertainty", "audit", "fusion"
 ]
 categories = [
     "science", "algorithms", "data-structures", "cryptography::cryptocurrencies",
