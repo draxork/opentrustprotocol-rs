@@ -1,6 +1,8 @@
 //! MapperValidator implementation for JSON Schema validation
 
-use crate::mapper::types::{MapperParams, MapperType};
+use crate::mapper::types::MapperParams;
+#[cfg(test)]
+use crate::mapper::types::MapperType;
 use serde_json::Value;
 
 /// Validation result for mapper configurations
@@ -14,9 +16,12 @@ pub struct ValidationResult {
 
 /// MapperValidator for validating mapper configurations against JSON Schema
 pub struct MapperValidator {
-    // JSON Schema definitions for each mapper type
+    // JSON Schema definitions for each mapper type (currently unused but kept for future schema validation)
+    #[allow(dead_code)]
     numerical_schema: Value,
+    #[allow(dead_code)]
     categorical_schema: Value,
+    #[allow(dead_code)]
     boolean_schema: Value,
 }
 

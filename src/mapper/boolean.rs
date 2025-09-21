@@ -3,9 +3,10 @@
 use crate::judgment::NeutrosophicJudgment;
 use crate::mapper::types::{
     create_judgment, create_timestamp, normalize_boolean_input, validate_judgment_values,
-    BaseMapperParams, BooleanParams, JudgmentData, Mapper, MapperType, ProvenanceEntry,
-    ValidationError,
+    BooleanParams, Mapper, MapperType, ProvenanceEntry, ValidationError,
 };
+#[cfg(test)]
+use crate::mapper::types::{BaseMapperParams, JudgmentData};
 use std::collections::HashMap;
 
 /// BooleanMapper for transforming boolean data into Neutrosophic Judgments
@@ -86,7 +87,7 @@ impl BooleanMapper {
         ProvenanceEntry {
             source_id: self.params.base.id.clone(),
             timestamp: create_timestamp(),
-            description: Some(format!("Boolean mapping of value")),
+            description: Some("Boolean mapping of value".to_string()),
             metadata: Some(metadata),
         }
     }

@@ -2,9 +2,11 @@
 
 use crate::judgment::NeutrosophicJudgment;
 use crate::mapper::types::{
-    create_judgment, create_timestamp, validate_judgment_values, BaseMapperParams,
-    CategoricalParams, JudgmentData, Mapper, MapperType, ProvenanceEntry, ValidationError,
+    create_judgment, create_timestamp, validate_judgment_values,
+    CategoricalParams, Mapper, MapperType, ProvenanceEntry, ValidationError,
 };
+#[cfg(test)]
+use crate::mapper::types::{BaseMapperParams, JudgmentData};
 use std::collections::HashMap;
 
 /// CategoricalMapper for transforming categorical data into Neutrosophic Judgments
@@ -101,13 +103,12 @@ impl CategoricalMapper {
         }
 
         // No mapping and no default judgment
-        Err(crate::error::OpenTrustError::InvalidFusionInput {
-            message: format!(
-                "Input category '{}' not found in mapper and no default_judgment is defined",
-                input_category
-            ),
-        }
-        .into())
+            Err(crate::error::OpenTrustError::InvalidFusionInput {
+                message: format!(
+                    "Input category '{}' not found in mapper and no default_judgment is defined",
+                    input_category
+                ),
+            })
     }
 }
 
@@ -123,8 +124,7 @@ impl Mapper for CategoricalMapper {
                     "Input for CategoricalMapper must be a string, got {}",
                     std::any::type_name_of_val(input)
                 ),
-            }
-            .into())
+            })
         }
     }
 

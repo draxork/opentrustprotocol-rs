@@ -25,8 +25,7 @@ impl DefaultMapperRegistry {
         if mappers.contains_key(&id) {
             return Err(crate::error::OpenTrustError::InvalidFusionInput {
                 message: format!("Mapper with ID '{}' already exists", id),
-            }
-            .into());
+            });
         }
 
         // Validate the mapper before registering
@@ -50,8 +49,7 @@ impl MapperRegistry for DefaultMapperRegistry {
                 } else {
                     return Err(crate::error::OpenTrustError::InvalidFusionInput {
                         message: "Failed to extract ID from NumericalMapper parameters".to_string(),
-                    }
-                    .into());
+                    });
                 }
             }
             MapperType::Categorical => {
@@ -64,8 +62,7 @@ impl MapperRegistry for DefaultMapperRegistry {
                     return Err(crate::error::OpenTrustError::InvalidFusionInput {
                         message: "Failed to extract ID from CategoricalMapper parameters"
                             .to_string(),
-                    }
-                    .into());
+                    });
                 }
             }
             MapperType::Boolean => {
@@ -77,8 +74,7 @@ impl MapperRegistry for DefaultMapperRegistry {
                 } else {
                     return Err(crate::error::OpenTrustError::InvalidFusionInput {
                         message: "Failed to extract ID from BooleanMapper parameters".to_string(),
-                    }
-                    .into());
+                    });
                 }
             }
         };

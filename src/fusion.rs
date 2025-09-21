@@ -56,7 +56,7 @@ fn create_fusion_provenance(
 
     ProvenanceEntry {
         source_id: operator.to_string(),
-        timestamp: format!("2023-01-01T00:00:00Z"), // Simplified timestamp
+        timestamp: "2023-01-01T00:00:00Z".to_string(), // Simplified timestamp
         description: Some(format!("Fusion operation using {}", operator)),
         metadata: Some(serde_json::Value::Object(metadata)),
     }

@@ -73,6 +73,7 @@ pub struct BooleanParams {
 }
 
 /// Judgment data structure
+#[allow(non_snake_case)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JudgmentData {
     /// Truth degree [0.0, 1.0]
@@ -196,6 +197,7 @@ pub fn create_timestamp() -> String {
 }
 
 /// Validate judgment values (T, I, F)
+#[allow(non_snake_case)]
 pub fn validate_judgment_values(T: f64, I: f64, F: f64) -> Result<(), ValidationError> {
     if !(0.0..=1.0).contains(&T) {
         return Err(ValidationError::InvalidJudgment {
@@ -224,6 +226,7 @@ pub fn validate_judgment_values(T: f64, I: f64, F: f64) -> Result<(), Validation
 }
 
 /// Create a NeutrosophicJudgment with provenance
+#[allow(non_snake_case)]
 pub fn create_judgment(
     T: f64,
     I: f64,

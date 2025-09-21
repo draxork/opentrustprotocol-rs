@@ -2,9 +2,11 @@
 
 use crate::judgment::NeutrosophicJudgment;
 use crate::mapper::types::{
-    create_judgment, create_timestamp, BaseMapperParams, Mapper, MapperType, NumericalParams,
+    create_judgment, create_timestamp, Mapper, MapperType, NumericalParams,
     ProvenanceEntry, ValidationError,
 };
+#[cfg(test)]
+use crate::mapper::types::BaseMapperParams;
 use std::collections::HashMap;
 
 /// NumericalMapper for transforming continuous numerical data into Neutrosophic Judgments
@@ -55,8 +57,11 @@ impl NumericalMapper {
 
     /// Calculate interpolation for the given input value
     fn calculate_interpolation(&self, input_value: f64) -> (f64, f64, f64) {
+        #[allow(non_snake_case)]
         let mut T = 0.0;
+        #[allow(non_snake_case)]
         let mut I = 0.0;
+        #[allow(non_snake_case)]
         let mut F = 0.0;
 
         let falsity_point = self.params.falsity_point;
@@ -64,7 +69,7 @@ impl NumericalMapper {
         let truth_point = self.params.truth_point;
 
         // Sort points for easier calculation
-        let mut points = vec![
+        let mut points = [
             (falsity_point, 'F'),
             (indeterminacy_point, 'I'),
             (truth_point, 'T'),
@@ -112,11 +117,10 @@ impl NumericalMapper {
                         / (truth_point - indeterminacy_point).abs();
                     T = ratio;
                     I = 1.0 - ratio;
-                } else if falsity_point == indeterminacy_point && input_value == falsity_point {
-                    I = 1.0;
-                } else if indeterminacy_point == truth_point && input_value == indeterminacy_point {
-                    I = 1.0;
-                } else if falsity_point == truth_point && input_value == falsity_point {
+                } else if (falsity_point == indeterminacy_point && input_value == falsity_point)
+                    || (indeterminacy_point == truth_point && input_value == indeterminacy_point)
+                    || (falsity_point == truth_point && input_value == falsity_point)
+                {
                     I = 1.0;
                 }
             } else {
@@ -205,11 +209,12 @@ impl NumericalMapper {
                         "Input value {} is out of the defined mapper range [{}, {}] and clamp_to_range is false",
                         input_value, min_point, max_point
                     ),
-                }.into());
+                });
             }
             input_value
         };
 
+        #[allow(non_snake_case)]
         let (T, I, F) = self.calculate_interpolation(clamped_value);
         let provenance_entry = self.create_provenance_entry(input_value);
 
@@ -231,8 +236,7 @@ impl Mapper for NumericalMapper {
                     "Input for NumericalMapper must be a number, got {}",
                     std::any::type_name_of_val(input)
                 ),
-            }
-            .into())
+            })
         }
     }
 

@@ -3,7 +3,7 @@
 use opentrustprotocol::{
     conflict_aware_weighted_average, get_global_registry, reset_global_registry, BaseMapperParams,
     BooleanMapper, BooleanParams, CategoricalMapper, CategoricalParams, JudgmentData,
-    MapperRegistry, MapperType, MapperValidator, NeutrosophicJudgment, NumericalMapper,
+    MapperType, MapperValidator, NumericalMapper,
     NumericalParams,
 };
 use std::collections::HashMap;
