@@ -1,14 +1,18 @@
 //! Basic usage example for OpenTrust Protocol Rust SDK
 
-use opentrustprotocol::{NeutrosophicJudgment, conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion};
+use opentrustprotocol::{
+    conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion, NeutrosophicJudgment,
+};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🦀 OpenTrust Protocol Rust SDK - Basic Usage Example\n");
 
     // Create sample judgments
     let judgment1 = NeutrosophicJudgment::new(
-        0.8, 0.2, 0.0,
-        vec![("sensor1".to_string(), "2023-01-01T00:00:00Z".to_string())]
+        0.8,
+        0.2,
+        0.0,
+        vec![("sensor1".to_string(), "2023-01-01T00:00:00Z".to_string())],
     )?;
 
     let judgment2 = NeutrosophicJudgment::new(

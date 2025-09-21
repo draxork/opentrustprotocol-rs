@@ -1,54 +1,57 @@
 //! Benchmarks for OpenTrust Protocol fusion operations
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
-use opentrustprotocol::{NeutrosophicJudgment, conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion};
+use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
+use opentrustprotocol::{
+    conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion, NeutrosophicJudgment,
+};
 
 fn create_judgment_batch(size: usize) -> Vec<NeutrosophicJudgment> {
     (0..size)
-        .map(|i| NeutrosophicJudgment::new(
-            0.5 + (i as f64 * 0.001),
-            0.3 - (i as f64 * 0.001),
-            0.2,
-            vec![(format!("source_{}", i), "2023-01-01T00:00:00Z".to_string())]
-        ).unwrap())
+        .map(|i| {
+            NeutrosophicJudgment::new(
+                0.5 + (i as f64 * 0.001),
+                0.3 - (i as f64 * 0.001),
+                0.2,
+                vec![(format!("source_{}", i), "2023-01-01T00:00:00Z".to_string())],
+            )
+            .unwrap()
+        })
         .collect()
 }
 
 fn bench_conflict_aware_weighted_average(c: &mut Criterion) {
     let mut group = c.benchmark_group("conflict_aware_weighted_average");
-    
+
     for size in [2, 5, 10, 20, 50, 100].iter() {
         let judgments = create_judgment_batch(*size);
         let judgment_refs: Vec<&NeutrosophicJudgment> = judgments.iter().collect();
         let weights: Vec<f64> = (0..*size).map(|i| 1.0 + (i as f64 * 0.1)).collect();
-        
+
         group.bench_with_input(BenchmarkId::new("cawa", size), size, |b, _| {
             b.iter(|| {
-                black_box(conflict_aware_weighted_average(
-                    black_box(&judgment_refs),
-                    black_box(&weights)
-                ).unwrap())
+                black_box(
+                    conflict_aware_weighted_average(black_box(&judgment_refs), black_box(&weights))
+                        .unwrap(),
+                )
             });
         });
     }
-    
+
     group.finish();
 }
 
 fn bench_optimistic_fusion(c: &mut Criterion) {
     let mut group = c.benchmark_group("optimistic_fusion");
-    
+
     for size in [2, 5, 10, 20, 50, 100].iter() {
         let judgments = create_judgment_batch(*size);
         let judgment_refs: Vec<&NeutrosophicJudgment> = judgments.iter().collect();
         
         group.bench_with_input(BenchmarkId::new("optimistic", size), size, |b, _| {
-            b.iter(|| {
-                black_box(optimistic_fusion(black_box(&judgment_refs)).unwrap())
-            });
+            b.iter(|| black_box(optimistic_fusion(black_box(&judgment_refs)).unwrap()));
         });
     }
-    
+
     group.finish();
 }
 
@@ -65,7 +68,7 @@ fn bench_pessimistic_fusion(c: &mut Criterion) {
             });
         });
     }
-    
+
     group.finish();
 }
 
