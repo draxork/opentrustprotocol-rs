@@ -1,8 +1,8 @@
 //! Neutrosophic Judgment implementation
 
+use crate::error::{OpenTrustError, Result};
 use serde::{Deserialize, Serialize};
 use std::fmt;
-use crate::error::{OpenTrustError, Result};
 
 /// Represents a provenance entry in the audit chain
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -55,23 +55,18 @@ pub struct NeutrosophicJudgment {
 
 impl NeutrosophicJudgment {
     /// Creates a new NeutrosophicJudgment
-    /// 
+    ///
     /// # Arguments
-    /// 
+    ///
     /// * `t` - Truth degree [0.0, 1.0]
     /// * `i` - Indeterminacy degree [0.0, 1.0]
     /// * `f` - Falsity degree [0.0, 1.0]
     /// * `provenance_chain` - List of provenance entries
-    /// 
+    ///
     /// # Errors
-    /// 
+    ///
     /// Returns an error if validation fails (invalid ranges or conservation constraint)
-    pub fn new(
-        t: f64,
-        i: f64,
-        f: f64,
-        provenance_chain: Vec<(String, String)>,
-    ) -> Result<Self> {
+    pub fn new(t: f64, i: f64, f: f64, provenance_chain: Vec<(String, String)>) -> Result<Self> {
         let provenance_entries: Vec<ProvenanceEntry> = provenance_chain
             .into_iter()
             .map(|(source_id, timestamp)| ProvenanceEntry::new(source_id, timestamp))
@@ -153,18 +148,16 @@ impl NeutrosophicJudgment {
 
     /// Returns a JSON representation of the judgment
     pub fn to_json(&self) -> Result<String> {
-        serde_json::to_string_pretty(self)
-            .map_err(|e| OpenTrustError::InvalidFusionInput {
-                message: format!("Failed to serialize judgment: {}", e),
-            })
+        serde_json::to_string_pretty(self).map_err(|e| OpenTrustError::InvalidFusionInput {
+            message: format!("Failed to serialize judgment: {}", e),
+        })
     }
 
     /// Creates a judgment from JSON
     pub fn from_json(json: &str) -> Result<Self> {
-        serde_json::from_str(json)
-            .map_err(|e| OpenTrustError::InvalidFusionInput {
-                message: format!("Failed to deserialize judgment: {}", e),
-            })
+        serde_json::from_str(json).map_err(|e| OpenTrustError::InvalidFusionInput {
+            message: format!("Failed to deserialize judgment: {}", e),
+        })
     }
 
     /// Checks if this judgment is equal to another (within epsilon tolerance)
@@ -188,7 +181,11 @@ impl NeutrosophicJudgment {
 
 impl fmt::Display for NeutrosophicJudgment {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "NeutrosophicJudgment(T={:.3}, I={:.3}, F={:.3})", self.t, self.i, self.f)
+        write!(
+            f,
+            "NeutrosophicJudgment(T={:.3}, I={:.3}, F={:.3})",
+            self.t, self.i, self.f
+        )
     }
 }
 
@@ -199,10 +196,13 @@ mod tests {
     #[test]
     fn test_judgment_creation() {
         let judgment = NeutrosophicJudgment::new(
-            0.8, 0.2, 0.0,
-            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())]
-        ).unwrap();
-        
+            0.8,
+            0.2,
+            0.0,
+            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())],
+        )
+        .unwrap();
+
         assert_eq!(judgment.t, 0.8);
         assert_eq!(judgment.i, 0.2);
         assert_eq!(judgment.f, 0.0);
@@ -212,10 +212,12 @@ mod tests {
     #[test]
     fn test_conservation_constraint() {
         let result = NeutrosophicJudgment::new(
-            0.5, 0.5, 0.3,
-            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())]
+            0.5,
+            0.5,
+            0.3,
+            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())],
         );
-        
+
         assert!(result.is_err());
         match result.unwrap_err() {
             OpenTrustError::ConservationViolation { t, i, f, sum } => {
@@ -230,14 +232,11 @@ mod tests {
 
     #[test]
     fn test_empty_provenance() {
-        let result = NeutrosophicJudgment::new(
-            0.8, 0.2, 0.0,
-            vec![]
-        );
-        
+        let result = NeutrosophicJudgment::new(0.8, 0.2, 0.0, vec![]);
+
         assert!(result.is_err());
         match result.unwrap_err() {
-            OpenTrustError::EmptyProvenanceChain => {},
+            OpenTrustError::EmptyProvenanceChain => {}
             _ => panic!("Expected EmptyProvenanceChain error"),
         }
     }
@@ -245,13 +244,16 @@ mod tests {
     #[test]
     fn test_json_serialization() {
         let judgment = NeutrosophicJudgment::new(
-            0.8, 0.2, 0.0,
-            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())]
-        ).unwrap();
-        
+            0.8,
+            0.2,
+            0.0,
+            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())],
+        )
+        .unwrap();
+
         let json = judgment.to_json().unwrap();
         let deserialized = NeutrosophicJudgment::from_json(&json).unwrap();
-        
+
         assert!(judgment.equals(&deserialized, 1e-10));
     }
 }

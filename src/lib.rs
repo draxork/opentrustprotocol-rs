@@ -38,11 +38,25 @@
 pub mod error;
 pub mod fusion;
 pub mod judgment;
+pub mod mapper;
 
 // Re-export main types and functions
 pub use error::{OpenTrustError, Result};
 pub use fusion::{conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion};
 pub use judgment::NeutrosophicJudgment;
 
+// Re-export mapper types and functions
+pub use mapper::{
+    create_judgment, create_timestamp, get_global_registry, normalize_boolean_input,
+    reset_global_registry, validate_judgment_values, BaseMapperParams, BooleanMapper,
+    BooleanParams, CategoricalMapper, CategoricalParams, InputError, Mapper, MapperError,
+    MapperParams, MapperRegistry, MapperType, MapperValidator, NumericalMapper, NumericalParams,
+    ProvenanceEntry, ValidationError,
+};
+
+// Re-export mapper sub-types
+pub use mapper::types::JudgmentData;
+pub use mapper::validator::ValidationResult;
+
 /// Current version of the OpenTrust Protocol SDK
-pub const VERSION: &str = "0.1.0";
+pub const VERSION: &str = "0.2.0";

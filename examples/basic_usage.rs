@@ -16,13 +16,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     )?;
 
     let judgment2 = NeutrosophicJudgment::new(
-        0.6, 0.3, 0.1,
-        vec![("sensor2".to_string(), "2023-01-01T00:00:00Z".to_string())]
+        0.6,
+        0.3,
+        0.1,
+        vec![("sensor2".to_string(), "2023-01-01T00:00:00Z".to_string())],
     )?;
 
     let judgment3 = NeutrosophicJudgment::new(
-        0.7, 0.1, 0.2,
-        vec![("sensor3".to_string(), "2023-01-01T00:00:00Z".to_string())]
+        0.7,
+        0.1,
+        0.2,
+        vec![("sensor3".to_string(), "2023-01-01T00:00:00Z".to_string())],
     )?;
 
     println!("📊 Original Judgments:");
@@ -33,10 +37,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Conflict-Aware Weighted Average (Recommended)
     println!("🔀 Conflict-Aware Weighted Average:");
-    let cawa_result = conflict_aware_weighted_average(
-        &[&judgment1, &judgment2, &judgment3],
-        &[0.5, 0.3, 0.2]
-    )?;
+    let cawa_result =
+        conflict_aware_weighted_average(&[&judgment1, &judgment2, &judgment3], &[0.5, 0.3, 0.2])?;
     println!("  Result: {}", cawa_result);
     println!("  Total: {:.3}", cawa_result.total());
     println!();
@@ -64,7 +66,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Provenance Chain Example
     println!("🔍 Provenance Chain:");
     for (i, entry) in cawa_result.provenance_chain.iter().enumerate() {
-        println!("  Entry {}: {} @ {}", i + 1, entry.source_id, entry.timestamp);
+        println!(
+            "  Entry {}: {} @ {}",
+            i + 1,
+            entry.source_id,
+            entry.timestamp
+        );
         if let Some(ref desc) = entry.description {
             println!("    Description: {}", desc);
         }

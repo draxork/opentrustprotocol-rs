@@ -1,7 +1,7 @@
 //! Fusion operators for OpenTrust Protocol
 
-use crate::judgment::{NeutrosophicJudgment, ProvenanceEntry};
 use crate::error::{OpenTrustError, Result};
+use crate::judgment::{NeutrosophicJudgment, ProvenanceEntry};
 
 /// Validates inputs for fusion functions
 fn validate_inputs(judgments: &[&NeutrosophicJudgment], weights: Option<&[f64]>) -> Result<()> {
@@ -42,17 +42,16 @@ fn create_fusion_provenance(
     let mut metadata = serde_json::Map::new();
     metadata.insert("operator".to_string(), operator.into());
     metadata.insert("input_count".to_string(), judgments.len().into());
-    
+
     if let Some(weights) = weights {
-        metadata.insert("weights".to_string(), 
-            serde_json::Value::Array(
-                weights.iter().map(|&w| w.into()).collect()
-            )
+        metadata.insert(
+            "weights".to_string(),
+            serde_json::Value::Array(weights.iter().map(|&w| w.into()).collect()),
         );
     } else {
         metadata.insert("weights".to_string(), serde_json::Value::Null);
     }
-    
+
     metadata.insert("version".to_string(), "0.1.0".into());
 
     ProvenanceEntry {
@@ -134,7 +133,11 @@ pub fn conflict_aware_weighted_average(
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance("otp-cawa-v0.1.0", judgments, Some(weights)));
+    new_provenance.push(create_fusion_provenance(
+        "otp-cawa-v0.1.0",
+        judgments,
+        Some(weights),
+    ));
 
     NeutrosophicJudgment::new_with_entries(final_t, final_i, final_f, new_provenance)
 }
@@ -174,7 +177,11 @@ pub fn optimistic_fusion(judgments: &[&NeutrosophicJudgment]) -> Result<Neutroso
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance("otp-optimistic-v0.1.0", judgments, None));
+    new_provenance.push(create_fusion_provenance(
+        "otp-optimistic-v0.1.0",
+        judgments,
+        None,
+    ));
 
     NeutrosophicJudgment::new_with_entries(scaled_t, scaled_i, scaled_f, new_provenance)
 }
@@ -214,7 +221,11 @@ pub fn pessimistic_fusion(judgments: &[&NeutrosophicJudgment]) -> Result<Neutros
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance("otp-pessimistic-v0.1.0", judgments, None));
+    new_provenance.push(create_fusion_provenance(
+        "otp-pessimistic-v0.1.0",
+        judgments,
+        None,
+    ));
 
     NeutrosophicJudgment::new_with_entries(scaled_t, scaled_i, scaled_f, new_provenance)
 }
@@ -225,9 +236,12 @@ mod tests {
 
     fn create_test_judgment(t: f64, i: f64, f: f64) -> NeutrosophicJudgment {
         NeutrosophicJudgment::new(
-            t, i, f,
-            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())]
-        ).unwrap()
+            t,
+            i,
+            f,
+            vec![("test".to_string(), "2023-01-01T00:00:00Z".to_string())],
+        )
+        .unwrap()
     }
 
     #[test]
@@ -235,10 +249,8 @@ mod tests {
         let judgment1 = create_test_judgment(0.8, 0.2, 0.0);
         let judgment2 = create_test_judgment(0.6, 0.3, 0.1);
 
-        let fused = conflict_aware_weighted_average(
-            &[&judgment1, &judgment2],
-            &[0.6, 0.4]
-        ).unwrap();
+        let fused =
+            conflict_aware_weighted_average(&[&judgment1, &judgment2], &[0.6, 0.4]).unwrap();
 
         assert!(fused.is_valid());
         assert!(fused.total() <= 1.0);
