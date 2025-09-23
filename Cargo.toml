@@ -10,8 +10,7 @@ homepage = "https://opentrustprotocol.com"
 documentation = "https://docs.rs/opentrustprotocol"
 readme = "README.md"
 keywords = [
-    "neutrosophy", "trust", "uncertainty", "audit", "conformance-seal", 
-    "performance-oracle", "circle-of-trust", "outcome-tracking"
+    "neutrosophy", "trust", "uncertainty", "audit", "conformance-seal"
 ]
 categories = [
     "algorithms", "data-structures", "cryptography::cryptocurrencies",
