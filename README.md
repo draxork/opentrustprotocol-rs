@@ -7,11 +7,15 @@
 
 > **🦀 The official Rust implementation of the OpenTrust Protocol - The MATHEMATICAL EMBODIMENT OF TRUST ITSELF**
 
-## 🔥 **REVOLUTIONARY UPDATE: v0.3.0 - Conformance Seals**
+## 🔥 **REVOLUTIONARY UPDATE: v3.0.0 - Performance Oracle & Circle of Trust**
 
-**OTP v0.3.0 introduces the Zero Pillar: Proof-of-Conformance Seals**
+**OTP v3.0.0 introduces:**
+- **Zero Pillar**: Proof-of-Conformance Seals (cryptographic proof of specification compliance)
+- **First Pillar**: Performance Oracle (Circle of Trust for real-world outcome tracking)
 
-Every fusion operation now generates a **cryptographic fingerprint** (SHA-256 hash) that proves the operation was performed according to the exact OTP specification. This transforms OTP from a trust protocol into **the mathematical embodiment of trust itself**.
+Every fusion operation now generates a **cryptographic fingerprint** (SHA-256 hash) that proves the operation was performed according to the exact OTP specification. Additionally, the Performance Oracle system enables tracking real-world outcomes to measure the effectiveness of OTP-based decisions.
+
+This transforms OTP from a trust protocol into **the mathematical embodiment of trust itself**.
 
 ### **🛡️ What are Conformance Seals?**
 
@@ -25,6 +29,24 @@ Every fusion operation now generates a **cryptographic fingerprint** (SHA-256 ha
 This solves the fundamental paradox: **"Who audits the auditor?"**
 
 With Conformance Seals, OTP audits itself through mathematics. No more blind trust in implementations - every operation is mathematically provable.
+
+### **🔮 What is the Performance Oracle?**
+
+The Performance Oracle is the **First Pillar** of OTP, enabling the **Circle of Trust**:
+
+- **🆔 Judgment IDs**: Unique SHA-256 identifiers for every decision
+- **🌍 Outcome Tracking**: Link decisions with real-world results
+- **📊 Performance Measurement**: Measure calibration and effectiveness
+- **🔄 Learning Loop**: Continuous improvement through feedback
+- **🎯 Trust Validation**: Prove that OTP decisions lead to better outcomes
+
+### **🔄 The Circle of Trust**
+
+1. **Decision**: OTP makes a decision with a unique Judgment ID
+2. **Action**: The decision is acted upon in the real world
+3. **Outcome**: The Performance Oracle records the actual result
+4. **Learning**: The system learns from the decision-outcome pair
+5. **Improvement**: Future decisions become more accurate and trustworthy
 
 ## 🚀 **What is OpenTrust Protocol?**
 
