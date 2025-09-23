@@ -110,6 +110,12 @@ pub struct ProvenanceEntry {
     pub description: Option<String>,
     /// Optional metadata
     pub metadata: Option<HashMap<String, serde_json::Value>>,
+    /// **NEW**: Conformance Seal for fusion operations
+    /// 
+    /// This field contains the SHA-256 hash that proves the operation
+    /// was performed according to OTP specification. Only present for
+    /// fusion operations that generate Conformance Seals.
+    pub conformance_seal: Option<String>,
 }
 
 /// Base trait for all mappers

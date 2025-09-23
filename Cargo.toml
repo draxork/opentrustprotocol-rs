@@ -1,16 +1,16 @@
 [package]
 name = "opentrustprotocol"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["OpenTrust Protocol Team <contact@opentrustprotocol.com>"]
-description = "🦀 Official Rust SDK for OpenTrust Protocol - The open standard for auditable trust in AI & blockchain systems. Features neutrosophic judgments, fusion operators, and OTP mappers with memory safety."
+description = "🦀 Official Rust SDK for OpenTrust Protocol - The mathematical embodiment of trust itself. Features neutrosophic judgments, fusion operators, OTP mappers, and REVOLUTIONARY Conformance Seals with mathematical proof of conformance."
 license = "MIT"
 repository = "https://github.com/draxork/opentrustprotocol-rs"
 homepage = "https://opentrustprotocol.com"
 documentation = "https://docs.rs/opentrustprotocol"
 readme = "README.md"
 keywords = [
-    "neutrosophy", "trust", "uncertainty", "audit", "fusion"
+    "neutrosophy", "trust", "uncertainty", "audit", "conformance-seal"
 ]
 categories = [
     "algorithms", "data-structures", "cryptography::cryptocurrencies",
@@ -21,6 +21,8 @@ categories = [
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "1.0"
+sha2 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
 
 [dev-dependencies]
 criterion = "0.5"
@@ -32,6 +34,10 @@ path = "src/lib.rs"
 [[example]]
 name = "mapper_examples"
 path = "examples/mapper_examples.rs"
+
+[[example]]
+name = "conformance_seal_demo"
+path = "examples/conformance_seal_demo.rs"
 
 [[bench]]
 name = "fusion_benchmarks"

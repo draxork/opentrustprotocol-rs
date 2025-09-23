@@ -89,6 +89,7 @@ impl BooleanMapper {
             timestamp: create_timestamp(),
             description: Some("Boolean mapping of value".to_string()),
             metadata: Some(metadata),
+            conformance_seal: None,
         }
     }
 

@@ -1,5 +1,10 @@
 //! Fusion operators for OpenTrust Protocol
+//! 
+//! **REVOLUTIONARY UPDATE**: All fusion operations now generate **Conformance Seals**
+//! that provide mathematical proof that the operation was performed according to
+//! the exact OTP specification. This transforms OTP into the mathematical embodiment of trust.
 
+use crate::conformance::{generate_conformance_seal, create_fusion_provenance_entry};
 use crate::error::{OpenTrustError, Result};
 use crate::judgment::{NeutrosophicJudgment, ProvenanceEntry};
 
@@ -33,12 +38,12 @@ fn validate_inputs(judgments: &[&NeutrosophicJudgment], weights: Option<&[f64]>)
     Ok(())
 }
 
-/// Creates a new provenance entry for fusion operations
-fn create_fusion_provenance(
+/// Creates a new provenance entry for fusion operations with Conformance Seal
+fn create_fusion_provenance_with_seal(
     operator: &str,
     judgments: &[&NeutrosophicJudgment],
     weights: Option<&[f64]>,
-) -> ProvenanceEntry {
+) -> Result<ProvenanceEntry> {
     let mut metadata = serde_json::Map::new();
     metadata.insert("operator".to_string(), operator.into());
     metadata.insert("input_count".to_string(), judgments.len().into());
@@ -52,14 +57,29 @@ fn create_fusion_provenance(
         metadata.insert("weights".to_string(), serde_json::Value::Null);
     }
 
-    metadata.insert("version".to_string(), "0.1.0".into());
+    metadata.insert("version".to_string(), "0.3.0".into());
 
-    ProvenanceEntry {
-        source_id: operator.to_string(),
-        timestamp: "2023-01-01T00:00:00Z".to_string(), // Simplified timestamp
-        description: Some(format!("Fusion operation using {}", operator)),
-        metadata: Some(serde_json::Value::Object(metadata)),
-    }
+    // **REVOLUTIONARY**: Generate Conformance Seal
+    let conformance_seal = if let Some(weights) = weights {
+        generate_conformance_seal(judgments, weights, operator)
+            .map_err(|e| OpenTrustError::InvalidFusionInput {
+                message: format!("Failed to generate conformance seal: {}", e),
+            })?
+    } else {
+        // For operations without weights, create a simplified seal
+        generate_conformance_seal(judgments, &vec![1.0; judgments.len()], operator)
+            .map_err(|e| OpenTrustError::InvalidFusionInput {
+                message: format!("Failed to generate conformance seal: {}", e),
+            })?
+    };
+
+    Ok(create_fusion_provenance_entry(
+        operator,
+        &chrono::Utc::now().to_rfc3339(),
+        &conformance_seal,
+        Some(format!("Fusion operation using {} with Conformance Seal", operator)),
+        Some(serde_json::Value::Object(metadata)),
+    ))
 }
 
 /// Fuses a list of judgments using the conflict-aware weighted average.
@@ -133,11 +153,11 @@ pub fn conflict_aware_weighted_average(
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance(
-        "otp-cawa-v0.1.0",
+    new_provenance.push(create_fusion_provenance_with_seal(
+        "otp-cawa-v1.1",
         judgments,
         Some(weights),
-    ));
+    )?);
 
     NeutrosophicJudgment::new_with_entries(final_t, final_i, final_f, new_provenance)
 }
@@ -177,11 +197,11 @@ pub fn optimistic_fusion(judgments: &[&NeutrosophicJudgment]) -> Result<Neutroso
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance(
-        "otp-optimistic-v0.1.0",
+    new_provenance.push(create_fusion_provenance_with_seal(
+        "otp-optimistic-v1.1",
         judgments,
         None,
-    ));
+    )?);
 
     NeutrosophicJudgment::new_with_entries(scaled_t, scaled_i, scaled_f, new_provenance)
 }
@@ -221,11 +241,11 @@ pub fn pessimistic_fusion(judgments: &[&NeutrosophicJudgment]) -> Result<Neutros
     for judgment in judgments {
         new_provenance.extend(judgment.provenance_chain.clone());
     }
-    new_provenance.push(create_fusion_provenance(
-        "otp-pessimistic-v0.1.0",
+    new_provenance.push(create_fusion_provenance_with_seal(
+        "otp-pessimistic-v1.1",
         judgments,
         None,
-    ));
+    )?);
 
     NeutrosophicJudgment::new_with_entries(scaled_t, scaled_i, scaled_f, new_provenance)
 }

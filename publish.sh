@@ -164,3 +164,4 @@ fi
 
 echo ""
 echo "🦀 OpenTrust Protocol - Making Trust Auditable! 🦀"
+

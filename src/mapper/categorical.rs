@@ -75,6 +75,7 @@ impl CategoricalMapper {
                 input_category
             )),
             metadata: Some(metadata),
+            conformance_seal: None,
         }
     }
 

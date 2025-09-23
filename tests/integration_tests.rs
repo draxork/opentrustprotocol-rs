@@ -132,7 +132,7 @@ fn test_provenance_chain_integrity() {
     // Check that original provenance is preserved
     assert_eq!(fused.provenance_chain[0].source_id, "source1");
     assert_eq!(fused.provenance_chain[1].source_id, "source2");
-    assert_eq!(fused.provenance_chain[2].source_id, "otp-cawa-v0.1.0");
+    assert_eq!(fused.provenance_chain[2].source_id, "otp-cawa-v1.1");
 }
 
 #[test]
@@ -173,3 +173,4 @@ fn test_performance_with_many_judgments() {
     assert!(fused.is_valid());
     assert!(fused.provenance_chain.len() > 100); // Should have all original + fusion entry
 }
+

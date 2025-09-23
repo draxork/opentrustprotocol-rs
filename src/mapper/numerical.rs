@@ -192,6 +192,7 @@ impl NumericalMapper {
             timestamp: create_timestamp(),
             description: Some(format!("Numerical mapping of value {}", input_value)),
             metadata: Some(metadata),
+            conformance_seal: None,
         }
     }
 

@@ -15,6 +15,12 @@ pub struct ProvenanceEntry {
     pub description: Option<String>,
     /// Optional metadata
     pub metadata: Option<serde_json::Value>,
+    /// **NEW**: Conformance Seal for fusion operations
+    /// 
+    /// This field contains the SHA-256 hash that proves the operation
+    /// was performed according to OTP specification. Only present for
+    /// fusion operations that generate Conformance Seals.
+    pub conformance_seal: Option<String>,
 }
 
 impl ProvenanceEntry {
@@ -25,6 +31,7 @@ impl ProvenanceEntry {
             timestamp,
             description: None,
             metadata: None,
+            conformance_seal: None,
         }
     }
 
@@ -35,6 +42,7 @@ impl ProvenanceEntry {
             timestamp,
             description: Some(description),
             metadata: None,
+            conformance_seal: None,
         }
     }
 }
@@ -257,3 +265,4 @@ mod tests {
         assert!(judgment.equals(&deserialized, 1e-10));
     }
 }
+

@@ -56,3 +56,4 @@ jobs:
     
     - name: Check formatting
       run: cargo fmt --all -- --check
+
