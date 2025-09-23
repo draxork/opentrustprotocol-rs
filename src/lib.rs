@@ -3,15 +3,21 @@
 //! This crate is the official Rust implementation of the OpenTrust Protocol.
 //!
 //! It provides the necessary tools to create, validate, and fuse
-//! Neutrosophic Judgments in Rust applications with **mathematical proof of conformance**.
+//! Neutrosophic Judgments in Rust applications with **mathematical proof of conformance**
+//! and **Performance Oracle capabilities**.
 //!
-//! ## 🦀 **The Revolutionary Addition: Conformance Seals**
+//! ## 🦀 **The Revolutionary Additions: Conformance Seals + Performance Oracle**
 //!
-//! **OTP v2.1 introduces the Zero Pillar: Proof-of-Conformance Seals**
+//! **OTP v3.0 introduces:**
+//! - **Zero Pillar**: Proof-of-Conformance Seals (cryptographic proof of specification compliance)
+//! - **First Pillar**: Performance Oracle (Circle of Trust for real-world outcome tracking)
 //! 
 //! Every fusion operation now generates a cryptographic fingerprint (SHA-256 hash) that proves
-//! the operation was performed according to the exact OTP specification. This transforms OTP
-//! from a trust protocol into **the mathematical embodiment of trust itself**.
+//! the operation was performed according to the exact OTP specification. Additionally, the
+//! Performance Oracle system enables tracking real-world outcomes to measure the effectiveness
+//! of OTP-based decisions.
+//!
+//! This transforms OTP from a trust protocol into **the mathematical embodiment of trust itself**.
 //!
 //! ## Core Components
 //!
@@ -62,6 +68,7 @@ pub mod conformance;
 pub mod error;
 pub mod fusion;
 pub mod judgment;
+pub mod judgment_id;
 pub mod mapper;
 
 // Re-export main types and functions
@@ -72,6 +79,9 @@ pub use conformance::{
 pub use error::{OpenTrustError, Result};
 pub use fusion::{conflict_aware_weighted_average, optimistic_fusion, pessimistic_fusion};
 pub use judgment::NeutrosophicJudgment;
+pub use judgment_id::{
+    generate_judgment_id, ensure_judgment_id, OutcomeJudgment, OutcomeType,
+};
 
 // Re-export mapper types and functions
 pub use mapper::{
@@ -88,6 +98,7 @@ pub use mapper::validator::ValidationResult;
 
 /// Current version of the OpenTrust Protocol SDK
 /// 
-/// **v0.3.0** introduces the revolutionary **Conformance Seal** - the Zero Pillar
-/// that transforms OTP into the mathematical embodiment of trust itself.
-pub const VERSION: &str = "0.3.0";
+/// **v3.0.0** introduces the **Performance Oracle** - the First Pillar that completes
+/// the Circle of Trust, enabling real-world outcome tracking and performance measurement
+/// to validate the effectiveness of OTP-based decisions.
+pub const VERSION: &str = "3.0.0";

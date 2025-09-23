@@ -19,3 +19,4 @@ jobs:
     - name: Check if project compiles
       run: cargo check
 
+

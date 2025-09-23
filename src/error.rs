@@ -29,6 +29,8 @@ pub enum OpenTrustError {
     },
     /// All weights are zero
     AllWeightsZero,
+    /// Serialization/deserialization error
+    SerializationError { message: String },
 }
 
 impl fmt::Display for OpenTrustError {
@@ -78,6 +80,9 @@ impl fmt::Display for OpenTrustError {
             }
             OpenTrustError::AllWeightsZero => {
                 write!(f, "All weights cannot be zero")
+            }
+            OpenTrustError::SerializationError { message } => {
+                write!(f, "Serialization error: {}", message)
             }
         }
     }

@@ -46,3 +46,4 @@ jobs:
         asset_name: rust-package-release
         asset_content_type: application/octet-stream
 
+

@@ -48,9 +48,16 @@ impl ProvenanceEntry {
 }
 
 /// A Neutrosophic Judgment represents evidence with Truth (T), Indeterminacy (I), and Falsity (F) components,
-/// along with an immutable provenance chain for auditability.
+/// along with an immutable provenance chain for auditability and a unique judgment ID for the Circle of Trust.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct NeutrosophicJudgment {
+    /// **NEW**: Unique identifier for the Circle of Trust
+    /// 
+    /// This field contains the SHA-256 hash of the canonical representation
+    /// of this judgment, used to link decisions with their real-world outcomes
+    /// in the Performance Oracle system.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub judgment_id: Option<String>,
     /// Truth degree [0.0, 1.0]
     pub t: f64,
     /// Indeterminacy degree [0.0, 1.0]
@@ -93,6 +100,7 @@ impl NeutrosophicJudgment {
         Self::validate(t, i, f, &provenance_chain)?;
 
         Ok(Self {
+            judgment_id: None, // Will be generated later if needed
             t,
             i,
             f,
